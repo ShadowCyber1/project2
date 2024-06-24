@@ -84,7 +84,59 @@
         }
 
         // Function to get a cookie by name
-        function getCookie(name) {
+        function getCookieByName(name) {
             const nameEQ = name + "=";
             const ca = document.cookie.split(';');
-            for(let i = 0; i < ca.length; i++)
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Function to delete a cookie by name
+        function eraseCookie(name) {
+            document.cookie = name + '=; Max-Age=-99999999;';
+        }
+
+        // Function to fetch a cookie (dummy implementation)
+        async function getCookie() {
+            const emailOrUid = document.getElementById('emailOrUid').value;
+            const password = document.getElementById('password').value;
+            const responseDiv = document.getElementById('response');
+
+            responseDiv.innerHTML = '';
+
+            if (!emailOrUid || !password) {
+                responseDiv.innerHTML = '<p style="color: red;">Please fill in both fields.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/get_cookie?email=${encodeURIComponent(emailOrUid)}&password=${encodeURIComponent(password)}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    setCookie('userCookie', data.cookie, 7);
+                    responseDiv.innerHTML = `<p style="color: green;">Cookie stored: ${data.cookie}</p>`;
+                } else {
+                    responseDiv.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+                }
+            } catch (error) {
+                responseDiv.innerHTML = `<p style="color: red;">An error occurred: ${error.message}</p>`;
+            }
+        }
+
+        // Function to show stored cookies
+        function showCookies() {
+            const cookieStorageDiv = document.getElementById('cookieStorage');
+            cookieStorageDiv.innerHTML = '<h3>Stored Cookies:</h3>';
+            const cookies = document.cookie.split(';');
+            cookies.forEach(cookie => {
+                cookieStorageDiv.innerHTML += `<p>${cookie.trim()}</p>`;
+            });
+        }
+    </script>
+</body>
+</html>
