@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Getter Boost</title>
+</head>
+<body>
+    <h1>Cookie Getter Boost</h1>
+    <button id="boostButton">Boost Likes</button>
+    <script>
+        // Function to store cookies
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        // Function to get a cookie by name
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        // Function to delete a cookie by name
+        function eraseCookie(name) {
+            document.cookie = name + '=; Max-Age=-99999999;';
+        }
+
+        // Simulate a like boost action
+        function boostLikes() {
+            // Example: Interact with Facebook's DOM (simplified)
+            const likeButtons = document.querySelectorAll('button.likeButton');
+            likeButtons.forEach(button => {
+                button.click();  // Simulate click
+            });
+        }
+
+        // Event listener for the boost button
+        document.getElementById('boostButton').addEventListener('click', () => {
+            // Store some cookies for demonstration
+            setCookie('user', 'exampleUser', 7);
+            setCookie('session', 'exampleSessionToken', 7);
+
+            // Retrieve cookies and perform an action
+            const user = getCookie('user');
+            const session = getCookie('session');
+            if (user && session) {
+                console.log('User:', user);
+                console.log('Session:', session);
+
+                // Perform the like boost
+                boostLikes();
+            } else {
+                console.log('Cookies are not set.');
+            }
+        });
+    </script>
+</body>
+</html>
