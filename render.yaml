@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: cookie-getter-boost
+    env: docker
+    dockerfilePath: ./Dockerfile
+    buildCommand: ""
+    startCommand: "python app.py"
+    envVars:
+      - key: PORT
+        value: "5000"
+    autoDeploy: true
