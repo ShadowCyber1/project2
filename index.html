@@ -4,10 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cookie Getter Boost</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #1877f2;
+            margin-bottom: 20px;
+        }
+        input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #1877f2;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #155cb0;
+        }
+        .response {
+            margin-top: 20px;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>Cookie Getter Boost</h1>
-    <button id="boostButton">Boost Likes</button>
+    <div class="container">
+        <h1>Cookie Getter Boost</h1>
+        <input type="text" id="emailOrUid" placeholder="Enter UID or Email">
+        <input type="password" id="password" placeholder="Enter Password">
+        <button onclick="getCookie()">Get Cookie</button>
+        <div class="response" id="response"></div>
+        <button id="showCookiesBtn" onclick="showCookies()">Show Stored Cookies</button>
+        <div class="response" id="cookieStorage"></div>
+    </div>
     <script>
         // Function to store cookies
         function setCookie(name, value, days) {
@@ -65,6 +128,37 @@
                 console.log('Cookies are not set.');
             }
         });
+
+        // Function to fetch a cookie (dummy implementation)
+        async function getCookie() {
+            const emailOrUid = document.getElementById('emailOrUid').value;
+            const password = document.getElementById('password').value;
+            const responseDiv = document.getElementById('response');
+
+            responseDiv.innerHTML = '';
+
+            if (!emailOrUid || !password) {
+                responseDiv.innerHTML = '<p style="color: red;">Please fill in both fields.</p>';
+                return;
+            }
+
+            // Simulate fetching a cookie (for demonstration)
+            setTimeout(() => {
+                const dummyCookie = `sessionid=${Math.random().toString(36).substr(2)}; csrftoken=${Math.random().toString(36).substr(2)}`;
+                setCookie('userCookie', dummyCookie, 7);
+                responseDiv.innerHTML = `<p style="color: green;">Cookie stored: ${dummyCookie}</p>`;
+            }, 1000);
+        }
+
+        // Function to show stored cookies
+        function showCookies() {
+            const cookieStorageDiv = document.getElementById('cookieStorage');
+            cookieStorageDiv.innerHTML = '<h3>Stored Cookies:</h3>';
+            const cookies = document.cookie.split(';');
+            cookies.forEach(cookie => {
+                cookieStorageDiv.innerHTML += `<p>${cookie.trim()}</p>`;
+            });
+        }
     </script>
 </body>
 </html>
